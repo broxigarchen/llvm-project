@@ -89,23 +89,13 @@ multiclass VOPC_Profile_t16<list<SchedReadWrite> sched, ValueType vt0, ValueType
   def _t16 : VOPC_Profile<sched, vt0, vt1> {
     let IsTrue16 = 1;
     let IsRealTrue16 = 1;
-    let HasOpSel = 1;
-    let HasModifiers = 1; // All instructions at least have OpSel
-    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
+    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
     let Src0ModDPP = getSrcModDPP_t16<Src0VT>.ret;
     let Src1ModDPP = getSrcModDPP_t16<Src1VT>.ret;
     let Src2ModDPP = getSrcModDPP_t16<Src2VT>.ret;
-
-    let DstRC64 = getVALUDstForVT<DstVT, 1, 1>.ret;
-    let Src0RC64 = getVOP3SrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1RC64 = getVOP3SrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2RC64 = getVOP3SrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
-    let Src0Mod = getSrcMod<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1Mod = getSrcMod<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2Mod = getSrcMod<Src2VT, 1/*IsTrue16*/>.ret;
   }
   def _fake16: VOPC_Profile<sched, vt0, vt1> {
     let IsTrue16 = 1;
@@ -149,22 +139,13 @@ multiclass VOPC_NoSdst_Profile_t16<list<SchedReadWrite> sched, ValueType vt0, Va
   def _t16 : VOPC_NoSdst_Profile<sched, vt0, vt1> {
     let IsTrue16 = 1;
     let IsRealTrue16 = 1;
-    let HasOpSel = 1;
-    let HasModifiers = 1; // All instructions at least have OpSel
-    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
+    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
     let Src0ModDPP = getSrcModDPP_t16<Src0VT>.ret;
     let Src1ModDPP = getSrcModDPP_t16<Src1VT>.ret;
     let Src2ModDPP = getSrcModDPP_t16<Src2VT>.ret;
-
-    let Src0RC64 = getVOP3SrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1RC64 = getVOP3SrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2RC64 = getVOP3SrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
-    let Src0Mod = getSrcMod<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1Mod = getSrcMod<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2Mod = getSrcMod<Src2VT, 1/*IsTrue16*/>.ret;
   }
   def _fake16 : VOPC_NoSdst_Profile<sched, vt0, vt1> {
     let IsTrue16 = 1;
@@ -863,26 +844,17 @@ class VOPC_Class_Profile<list<SchedReadWrite> sched, ValueType src0VT, ValueType
 
 multiclass VOPC_Class_Profile_t16<list<SchedReadWrite> sched> {
   def NAME : VOPC_Class_Profile<sched, f16>;
-  def _t16 : VOPC_Class_Profile<sched, f16, f16> {
+  def _t16 : VOPC_Class_Profile<sched, f16, i16> {
     let IsTrue16 = 1;
     let IsRealTrue16 = 1;
-    let HasOpSel = 1;
-    let HasModifiers = 1; // All instructions at least have OpSel
-    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
+    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1RC64 = VSrc_b32;
+    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
     let Src0ModDPP = getSrcModDPP_t16<Src0VT>.ret;
     let Src1ModDPP = getSrcModDPP_t16<Src1VT>.ret;
     let Src2ModDPP = getSrcModDPP_t16<Src2VT>.ret;
-
-    let DstRC64 = getVALUDstForVT<DstVT, 1, 1>.ret;
-    let Src0RC64 = getVOP3SrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1RC64 = getVOP3SrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2RC64 = getVOP3SrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
-    let Src0Mod = getSrcMod<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1Mod = getSrcMod<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2Mod = getSrcMod<Src2VT, 1/*IsTrue16*/>.ret;
   }
   def _fake16 : VOPC_Class_Profile<sched, f16, f16> {
     let IsTrue16 = 1;
@@ -920,26 +892,17 @@ class VOPC_Class_NoSdst_Profile<list<SchedReadWrite> sched, ValueType src0VT, Va
 
 multiclass VOPC_Class_NoSdst_Profile_t16<list<SchedReadWrite> sched> {
   def NAME : VOPC_Class_NoSdst_Profile<sched, f16>;
-  def _t16 : VOPC_Class_NoSdst_Profile<sched, f16, f16> {
+  def _t16 : VOPC_Class_NoSdst_Profile<sched, f16, i16> {
     let IsTrue16 = 1;
     let IsRealTrue16 = 1;
-    let HasOpSel = 1;
-    let HasModifiers = 1; // All instructions at least have OpSel
-    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
+    let Src1RC32 = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1RC64 = VSrc_b32;
+    let Src0DPP = getVregSrcForVT<Src0VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src1DPP = getVregSrcForVT<Src1VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
+    let Src2DPP = getVregSrcForVT<Src2VT, 1/*IsTrue16*/, 1/*IsFake16*/>.ret;
     let Src0ModDPP = getSrcModDPP_t16<Src0VT>.ret;
     let Src1ModDPP = getSrcModDPP_t16<Src1VT>.ret;
     let Src2ModDPP = getSrcModDPP_t16<Src2VT>.ret;
-
-    let DstRC64 = getVALUDstForVT<DstVT, 1, 1>.ret;
-    let Src0RC64 = getVOP3SrcForVT<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1RC64 = getVOP3SrcForVT<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2RC64 = getVOP3SrcForVT<Src2VT, 1/*IsTrue16*/>.ret;
-    let Src0Mod = getSrcMod<Src0VT, 1/*IsTrue16*/>.ret;
-    let Src1Mod = getSrcMod<Src1VT, 1/*IsTrue16*/>.ret;
-    let Src2Mod = getSrcMod<Src2VT, 1/*IsTrue16*/>.ret;
   }
   def _fake16 : VOPC_Class_NoSdst_Profile<sched, f16, f16> {
     let IsTrue16 = 1;
@@ -1408,9 +1371,29 @@ class VOPC_DPP8<bits<8> op, VOPC_Pseudo ps, string opName = ps.OpName>
 
 // VOPC64
 
-class VOPC64_DPP<VOP_DPP_Pseudo ps, string opName = ps.OpName>
-    : VOP3_DPP_Base<opName, ps.Pfl, 1> {
+class VOPC64_DPP_Base<bits<10> op, string OpName, VOPProfile P>
+    : VOP3_DPP_Base<OpName, P, 1>, VOP3_DPPe_Common<op, P> {
   Instruction Opcode = !cast<Instruction>(NAME);
+
+  bits<8> src0;
+  bits<9> dpp_ctrl;
+  bits<1> bound_ctrl;
+  bits<4> bank_mask;
+  bits<4> row_mask;
+  bit     fi;
+
+  let Inst{40-32} = 0xfa;
+  let Inst{71-64} = !if(P.HasSrc0, src0{7-0}, 0);
+  let Inst{80-72} = dpp_ctrl;
+  let Inst{82}    = fi;
+  let Inst{83}    = bound_ctrl;
+  // Inst{87-84} ignored by hw
+  let Inst{91-88} = bank_mask;
+  let Inst{95-92} = row_mask;
+}
+
+class VOPC64_DPP16<bits<10> op, VOP_DPP_Pseudo ps, string opName = ps.OpName>
+    : VOPC64_DPP_Base<op, opName, ps.Pfl> {
   let AssemblerPredicate = HasDPP16;
   let SubtargetPredicate = HasDPP16;
   let True16Predicate = ps.True16Predicate;
@@ -1424,7 +1407,7 @@ class VOPC64_DPP<VOP_DPP_Pseudo ps, string opName = ps.OpName>
 
 class VOPC64_DPP16_Dst<bits<10> op, VOP_DPP_Pseudo ps,
                        string opName = ps.OpName>
-    : VOPC64_DPP<ps, opName>, VOP3_DPP_Enc<op, ps.Pfl, 1> {
+    : VOPC64_DPP16<op, ps, opName> {
 
   bits<8> sdst;
   let Inst{7-0} = sdst;
@@ -1432,24 +1415,21 @@ class VOPC64_DPP16_Dst<bits<10> op, VOP_DPP_Pseudo ps,
 
 class VOPC64_DPP16_NoDst<bits<10> op, VOP_DPP_Pseudo ps,
                          string opName = ps.OpName>
-    : VOPC64_DPP<ps, opName>, VOP3_DPP_Enc<op, ps.Pfl, 1> {
+    : VOPC64_DPP16<op, ps, opName> {
 
   let Inst{7-0} = ? ;
 }
 
-class VOPC64_DPP16_Dst_t16<bits<10> op, VOP_DPP_Pseudo ps,
-                       string opName = ps.OpName>
-    : VOPC64_DPP<ps, opName>, VOP3_DPP_Enc_t16<op, ps.Pfl, 1> {
-  bits<8> sdst;
-  let Inst{7-0} = sdst;
-  let Inst{14} = 0;
-}
+class VOPC64_DPP8_Base<bits<10> op, string OpName, VOPProfile P>
+    : VOP3_DPP8_Base<OpName, P>, VOP3_DPPe_Common<op, P> {
+  Instruction Opcode = !cast<Instruction>(NAME);
 
-class VOPC64_DPP16_NoDst_t16<bits<10> op, VOP_DPP_Pseudo ps,
-                         string opName = ps.OpName>
-    : VOPC64_DPP<ps, opName>, VOP3_DPP_Enc_t16<op, ps.Pfl, 1> {
-  let Inst{7-0} = ? ;
-  let Inst{14} = 0;
+  bits<8> src0;
+  bits<24> dpp8;
+  bits<9> fi;
+  let Inst{40-32} = fi;
+  let Inst{71-64} = !if(P.HasSrc0, src0{7-0}, 0);
+  let Inst{95-72} = dpp8{23-0};
 }
 
 class VOPC64_DPP8<VOP_Pseudo ps, string opName = ps.OpName>
@@ -1474,21 +1454,6 @@ class VOPC64_DPP8_Dst<bits<10> op, VOP_Pseudo ps, string opName = ps.OpName>
 class VOPC64_DPP8_NoDst<bits<10> op, VOP_Pseudo ps, string opName = ps.OpName>
     : VOPC64_DPP8<ps, opName>, VOP3_DPP8_Enc<op, ps.Pfl> {
   let Inst{7-0} = ? ;
-  let Constraints = "";
-}
-
-class VOPC64_DPP8_Dst_t16<bits<10> op, VOP_Pseudo ps, string opName = ps.OpName>
-    : VOPC64_DPP8<ps, opName>, VOP3_DPP8_Enc_t16<op, ps.Pfl> {
-  bits<8> sdst;
-  let Inst{7-0} = sdst;
-  let Inst{14} = 0;
-  let Constraints = "";
-}
-
-class VOPC64_DPP8_NoDst_t16<bits<10> op, VOP_Pseudo ps, string opName = ps.OpName>
-    : VOPC64_DPP8<ps, opName>, VOP3_DPP8_Enc_t16<op, ps.Pfl> {
-  let Inst{7-0} = ? ;
-  let Inst{14} = 0;
   let Constraints = "";
 }
 
@@ -1572,25 +1537,13 @@ multiclass VOPC_Real_with_name<GFXGen Gen, bits<9> op, string OpName,
         // the destination-less 32bit forms add it to the asmString here.
         VOPC_Real<ps32, Gen.Subtarget, asm_name#"_e32">,
         VOPCe<op{7-0}>;
-      if ps64.Pfl.IsRealTrue16 then {
-        def _e64#Gen.Suffix :
-              VOP3_Real_Gen<ps64, Gen, asm_name>,
-              VOP3e_t16_gfx11_gfx12<{0, op}, ps64.Pfl> {
-          // Encoding used for VOPC instructions encoded as VOP3 differs from
-          // VOP3e by destination name (sdst) as VOPC doesn't have vector dst.
-          bits<8> sdst;
-          let Inst{7-0} = sdst;
-          let Inst{14} = 0;
-        }
-      } else {
-        def _e64#Gen.Suffix :
-              VOP3_Real_Gen<ps64, Gen, asm_name>,
-              VOP3a_gfx11_gfx12<{0, op}, ps64.Pfl>{
-          // Encoding used for VOPC instructions encoded as VOP3 differs from
-          // VOP3e by destination name (sdst) as VOPC doesn't have vector dst.
-          bits<8> sdst;
-          let Inst{7-0} = sdst;
-        }
+      def _e64#Gen.Suffix :
+            VOP3_Real_Gen<ps64, Gen, asm_name>,
+            VOP3a_gfx11_gfx12<{0, op}, ps64.Pfl> {
+        // Encoding used for VOPC instructions encoded as VOP3 differs from
+        // VOP3e by destination name (sdst) as VOPC doesn't have vector dst.
+        bits<8> sdst;
+        let Inst{7-0} = sdst;
       }
 
       defm : VOPCInstAliases<OpName, !substr(Gen.Suffix, 1), NAME, asm_name>;
@@ -1630,16 +1583,9 @@ multiclass VOPC_Real_with_name<GFXGen Gen, bits<9> op, string OpName,
 
       if ps64.Pfl.HasExtVOP3DPP then {
         defvar psDPP = !cast<VOP_DPP_Pseudo>(OpName #"_e64" #"_dpp");
-        if ps64.Pfl.IsRealTrue16 then {
-          def _e64_dpp#Gen.Suffix : VOPC64_DPP16_Dst_t16<{0, op}, psDPP, asm_name>,
-                                    SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget>;
-          def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_Dst_t16<{0, op}, ps64, asm_name>;
-        } else {
-          def _e64_dpp#Gen.Suffix : VOPC64_DPP16_Dst<{0, op}, psDPP, asm_name>,
-                                    SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget>;
-          def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_Dst<{0, op}, ps64, asm_name>;
-        } // end if ps64.Pfl.IsRealTrue16
-
+        def _e64_dpp#Gen.Suffix : VOPC64_DPP16_Dst<{0, op}, psDPP, asm_name>,
+                                  SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget>;
+        def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_Dst<{0, op}, ps64, asm_name>;
       } // end if ps64.Pfl.HasExtVOP3DPP
     } // End DecoderNamespace
   } // End AssemblerPredicate
@@ -1684,7 +1630,6 @@ multiclass VOPCX_Real<GFXGen Gen, bits<9> op> {
 
     if ps64.Pfl.HasExtVOP3DPP then {
       defvar psDPP = !cast<VOP_DPP_Pseudo>(NAME #"_nosdst_e64" #"_dpp");
-      defvar AsmDPP = ps64.Pfl.AsmVOP3DPP16;
       def _e64_dpp#Gen.Suffix
           : VOPC64_DPP16_NoDst<{0, op}, psDPP>,
             SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget> {
@@ -1718,23 +1663,11 @@ multiclass VOPCX_Real_with_name<GFXGen Gen, bits<9> op, string OpName,
             VOPCe<op{7-0}> {
         let AsmString = asm_name # "{_e32} " # ps32.AsmOperands;
       }
-      if ps64.Pfl.IsRealTrue16 then {
-        def _e64#Gen.Suffix
-            : VOP3_Real_Gen<ps64, Gen, asm_name>,
-              VOP3e_t16_gfx11_gfx12<{0, op}, ps64.Pfl> {
-          let Inst{7-0} = ? ; // sdst
-          let Inst{14} = 0;
-          let AsmString = asm_name # "{_e64} " # ps64.AsmOperands;
-        }
-      } else {
-        def _e64#Gen.Suffix
-            : VOP3_Real_Gen<ps64, Gen, asm_name>,
-              VOP3a_gfx11_gfx12<{0, op}, ps64.Pfl> {
-          let Inst{7-0} = ? ; // sdst
-          let AsmString = asm_name # "{_e64} " # ps64.AsmOperands;
-        }
-      }
-
+      def _e64#Gen.Suffix
+          : VOP3_Real_Gen<ps64, Gen, asm_name>,
+            VOP3a_gfx11_gfx12<{0, op}, ps64.Pfl> {
+        let Inst{7-0} = ? ; // sdst
+        let AsmString = asm_name # "{_e64} " # ps64.AsmOperands;
       defm : VOPCXInstAliases<OpName, !substr(Gen.Suffix, 1), NAME, asm_name>;
 
       if ps32.Pfl.HasExtDPP then {
@@ -1746,25 +1679,14 @@ multiclass VOPCX_Real_with_name<GFXGen Gen, bits<9> op, string OpName,
       if ps64.Pfl.HasExtVOP3DPP then {
         defvar psDPP = !cast<VOP_DPP_Pseudo>(OpName#"_nosdst_e64"#"_dpp");
         defvar AsmDPP = ps64.Pfl.AsmVOP3DPP16;
+        def _e64_dpp#Gen.Suffix
+            : VOPC64_DPP16_NoDst<{0, op}, psDPP, asm_name>,
+              SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget> {
+          let AsmString = asm_name # "{_e64_dpp} " # AsmDPP;
+        }
         defvar AsmDPP8 = ps64.Pfl.AsmVOP3DPP8;
-        if ps64.Pfl.IsRealTrue16 then {
-          def _e64_dpp#Gen.Suffix
-              : VOPC64_DPP16_NoDst_t16<{0, op}, psDPP, asm_name>,
-                SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget> {
-            let AsmString = asm_name # "{_e64_dpp} " # AsmDPP;
-          }
-          def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_NoDst_t16<{0, op}, ps64, asm_name> {
-            let AsmString = asm_name # "{_e64_dpp} " # AsmDPP8;
-          }
-        } else {
-          def _e64_dpp#Gen.Suffix
-              : VOPC64_DPP16_NoDst<{0, op}, psDPP, asm_name>,
-                SIMCInstr<psDPP.PseudoInstr, Gen.Subtarget> {
-            let AsmString = asm_name # "{_e64_dpp} " # AsmDPP;
-          }
-          def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_NoDst<{0, op}, ps64, asm_name> {
-            let AsmString = asm_name # "{_e64_dpp} " # AsmDPP8;
-          }
+        def _e64_dpp8#Gen.Suffix : VOPC64_DPP8_NoDst<{0, op}, ps64, asm_name> {
+          let AsmString = asm_name # "{_e64_dpp} " # AsmDPP8;
         }
       } // End if ps64.Pfl.HasExtVOP3DPP
     } // End DecoderNamespace
@@ -1949,7 +1871,7 @@ defm V_CMP_CLASS_F16 : VOPC_Real_t16_and_fake16_gfx11_gfx12<0x07d, "v_cmp_class_
 defm V_CMP_CLASS_F32     : VOPC_Real_gfx11_gfx12<0x07e>;
 defm V_CMP_CLASS_F64     : VOPC_Real_gfx11_gfx12<0x07f>;
 
-defm V_CMPX_F_F16         : VOPCX_Real_t16_and_fake16_gfx11<0x080, "v_cmpx_f_f16">;
+defm V_CMPX_F_F16_t16     : VOPCX_Real_t16_gfx11<0x080, "v_cmpx_f_f16">;
 defm V_CMPX_LT_F16_t16    : VOPCX_Real_t16_gfx11_gfx12<0x081, "v_cmpx_lt_f16">;
 defm V_CMPX_EQ_F16_t16    : VOPCX_Real_t16_gfx11_gfx12<0x082, "v_cmpx_eq_f16">;
 defm V_CMPX_LE_F16_t16    : VOPCX_Real_t16_gfx11_gfx12<0x083, "v_cmpx_le_f16">;
@@ -1966,6 +1888,7 @@ defm V_CMPX_NEQ_F16_t16   : VOPCX_Real_t16_gfx11_gfx12<0x08d, "v_cmpx_neq_f16">;
 defm V_CMPX_NLT_F16_t16   : VOPCX_Real_t16_gfx11_gfx12<0x08e, "v_cmpx_nlt_f16">;
 defm V_CMPX_T_F16_t16     : VOPCX_Real_with_name_gfx11<0x08f, "V_CMPX_TRU_F16_t16", "v_cmpx_t_f16", "v_cmpx_tru_f16">;
 
+defm V_CMPX_F_F16_fake16     : VOPCX_Real_t16_gfx11<0x080, "v_cmpx_f_f16">;
 defm V_CMPX_LT_F16_fake16    : VOPCX_Real_t16_gfx11_gfx12<0x081, "v_cmpx_lt_f16">;
 defm V_CMPX_EQ_F16_fake16    : VOPCX_Real_t16_gfx11_gfx12<0x082, "v_cmpx_eq_f16">;
 defm V_CMPX_LE_F16_fake16    : VOPCX_Real_t16_gfx11_gfx12<0x083, "v_cmpx_le_f16">;
