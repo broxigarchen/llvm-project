@@ -2067,6 +2067,23 @@ def : GCNPat <
   (V_OR_B16_t16_e64 (i32 0), (i16 0x8000), (i32 0), VGPR_16:$src) // Set sign bit
 >;
 } // End SubtargetPredicate = UseRealTrue16Insts
+
+let SubtargetPredicate = UseFakeTrue16Insts in {
+def : GCNPat <
+  (fabs (fp16vt VGPR_32:$src)),
+  (V_AND_B16_fake16_e64 (i32 0x00007fff), VGPR_32:$src)
+>;
+
+def : GCNPat <
+  (fneg (fp16vt VGPR_32:$src)),
+  (V_XOR_B16_fake16_e64 (i32 0x00008000), VGPR_32:$src)
+>;
+
+def : GCNPat <
+  (fneg (fabs (fp16vt VGPR_32:$src))),
+  (V_OR_B16_fake16_e64 (i32 0x00008000), VGPR_32:$src) // Set sign bit
+>;
+} // End SubtargetPredicate = UseFakeTrue16Insts
 } // End foreach fp16vt = ...
 
 def : GCNPat <
