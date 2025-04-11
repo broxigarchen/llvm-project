@@ -23,6 +23,9 @@
 #include "llvm/Support/Compiler.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Target/TargetOptions.h"
+#include "llvm/Support/Debug.h"
+
+#define DEBUG_TYPE "targetframeloweringimpl"
 
 using namespace llvm;
 
@@ -102,6 +105,7 @@ void TargetFrameLowering::determineCalleeSaves(MachineFunction &MF,
   // saved registers.
   SavedRegs.resize(TRI.getNumRegs());
 
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   // Get the callee saved register list...
   const MCPhysReg *CSRegs = nullptr;
 
@@ -115,14 +119,21 @@ void TargetFrameLowering::determineCalleeSaves(MachineFunction &MF,
   else
     CSRegs = MF.getRegInfo().getCalleeSavedRegs();
 
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
+
   // Early exit if there are no callee saved registers.
-  if (!CSRegs || CSRegs[0] == 0)
+  if (!CSRegs || CSRegs[0] == 0) {
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
     return;
+  }
+
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
 
   // In Naked functions we aren't going to save any registers.
   if (MF.getFunction().hasFnAttribute(Attribute::Naked))
     return;
 
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   // Noreturn+nounwind functions never restore CSR, so no saves are needed.
   // Purely noreturn functions may still return through throws, so those must
   // save CSR for caller exception handlers.
@@ -136,6 +147,8 @@ void TargetFrameLowering::determineCalleeSaves(MachineFunction &MF,
         enableCalleeSaveSkip(MF))
     return;
 
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
+
   // Functions which call __builtin_unwind_init get all their registers saved.
   bool CallsUnwindInit = MF.callsUnwindInit();
   const MachineRegisterInfo &MRI = MF.getRegInfo();
@@ -144,6 +157,7 @@ void TargetFrameLowering::determineCalleeSaves(MachineFunction &MF,
     if (CallsUnwindInit || MRI.isPhysRegModified(Reg))
       SavedRegs.set(Reg);
   }
+  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
 }
 
 bool TargetFrameLowering::allocateScavengingFrameIndexesNearIncomingSP(

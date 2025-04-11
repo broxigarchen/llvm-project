@@ -3688,6 +3688,7 @@ unsigned SIRegisterInfo::getRegPressureLimit(const TargetRegisterClass *RC,
   switch (RC->getID()) {
   default:
     return AMDGPUGenRegisterInfo::getRegPressureLimit(RC, MF);
+  case AMDGPU::VGPR_16RegClassID:
   case AMDGPU::VGPR_32RegClassID:
     return std::min(ST.getMaxNumVGPRs(MinOcc), ST.getMaxNumVGPRs(MF));
   case AMDGPU::SGPR_32RegClassID:
