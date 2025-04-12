@@ -1611,7 +1611,6 @@ void SIFrameLowering::determineCalleeSaves(MachineFunction &MF,
                                            RegScavenger *RS) const {
   SIMachineFunctionInfo *MFI = MF.getInfo<SIMachineFunctionInfo>();
 
-  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ <<"\n");
   // If this is a function with the amdgpu_cs_chain[_preserve] calling
   // convention and it doesn't contain any calls to llvm.amdgcn.cs.chain, then
   // we don't need to save and restore anything.
@@ -1645,7 +1644,6 @@ void SIFrameLowering::determineCalleeSaves(MachineFunction &MF,
     }
   }
 
-  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ <<"\n");
   SmallVector<Register> SortedWWMVGPRs;
   for (Register Reg : MFI->getWWMReservedRegs()) {
     // The shift-back is needed only for the VGPRs used for SGPR spills and they
@@ -1654,10 +1652,6 @@ void SIFrameLowering::determineCalleeSaves(MachineFunction &MF,
     const TargetRegisterClass *RC = TRI->getPhysRegBaseClass(Reg);
     if (TRI->getRegSizeInBits(*RC) > 32)
       continue;
-
-    if (ST.useRealTrue16Insts() && TRI->getRegSizeInBits(*RC) == 16)
-      continue;
-
     SortedWWMVGPRs.push_back(Reg);
   }
 
@@ -1676,7 +1670,6 @@ void SIFrameLowering::determineCalleeSaves(MachineFunction &MF,
     }
   }
 
-  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ <<"\n");
   // Create the stack objects for WWM registers now.
   for (Register Reg : MFI->getWWMReservedRegs()) {
     const TargetRegisterClass *RC = TRI->getPhysRegBaseClass(Reg);
@@ -1695,12 +1688,10 @@ void SIFrameLowering::determineCalleeSaves(MachineFunction &MF,
 
   determinePrologEpilogSGPRSaves(MF, SavedVGPRs, NeedExecCopyReservedReg);
 
-  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ <<"\n");
   // The Whole-Wave VGPRs need to be specially inserted in the prolog, so don't
   // allow the default insertion to handle them.
   for (auto &Reg : MFI->getWWMSpills())
     SavedVGPRs.reset(Reg.first);
-  LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ <<"\n");
 }
 
 void SIFrameLowering::determineCalleeSavesSGPR(MachineFunction &MF,

@@ -216,7 +216,6 @@ static void stashEntryDbgValues(MachineBasicBlock &MBB,
 /// runOnMachineFunction - Insert prolog/epilog code and replace abstract
 /// frame indexes with appropriate references.
 bool PEI::runOnMachineFunction(MachineFunction &MF) {
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   NumFuncSeen++;
   const Function &F = MF.getFunction();
   const TargetRegisterInfo *TRI = MF.getSubtarget().getRegisterInfo();
@@ -231,7 +230,6 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   // with stack arguments.
   TFI->spillFPBP(MF);
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   // Calculate the MaxCallFrameSize value for the function's frame
   // information. Also eliminates call frame pseudo instructions.
   calculateCallFrameInfo(MF);
@@ -245,13 +243,10 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   for (MachineBasicBlock *SaveBlock : SaveBlocks)
     stashEntryDbgValues(*SaveBlock, EntryDbgValues);
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "last" << "\n");
   // Handle CSR spilling and restoring, for targets that need it.
   if (MF.getTarget().usesPhysRegsForValues())
     spillCalleeSavedRegs(MF);
 
-
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "last" << "\n");
   // Allow the target machine to make final modifications to the function
   // before the frame layout is finalized.
   TFI->processFunctionBeforeFrameFinalized(MF, RS);
@@ -275,12 +270,9 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   // before the frame layout is finalized.
   TFI->processFunctionBeforeFrameIndicesReplaced(MF, RS);
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
-
   // Replace all MO_FrameIndex operands with physical register references
   // and actual offsets.
   if (TFI->needsFrameIndexResolution(MF)) {
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
     // Allow the target to determine this after knowing the frame size.
     FrameIndexEliminationScavenging =
         (RS && !FrameIndexVirtualScavenging) ||
@@ -295,17 +287,14 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   // If register scavenging is needed, as we've enabled doing it as a
   // post-pass, scavenge the virtual registers that frame index elimination
   // inserted.
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   if (TRI->requiresRegisterScavenging(MF) && FrameIndexVirtualScavenging)
     scavengeFrameVirtualRegs(MF, *RS);
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   // Warn on stack size when we exceeds the given limit.
   MachineFrameInfo &MFI = MF.getFrameInfo();
   uint64_t StackSize = MFI.getStackSize();
 
   uint64_t Threshold = TFI->getStackThreshold();
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   if (MF.getFunction().hasFnAttribute("warn-stack-size")) {
     bool Failed = MF.getFunction()
                       .getFnAttribute("warn-stack-size")
@@ -319,7 +308,6 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   if (MF.getFunction().hasFnAttribute(Attribute::SafeStack))
     StackSize += UnsafeStackSize;
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   if (StackSize > Threshold) {
     DiagnosticInfoStackSize DiagStackSize(F, StackSize, Threshold, DS_Warning);
     F.getContext().diagnose(DiagStackSize);
@@ -346,7 +334,6 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
     LLVM_DEBUG(dbgs() << "\n");
   }
 
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   ORE->emit([&]() {
     return MachineOptimizationRemarkAnalysis(DEBUG_TYPE, "StackSize",
                                              MF.getFunction().getSubprogram(),
@@ -364,7 +351,6 @@ bool PEI::runOnMachineFunction(MachineFunction &MF) {
   RestoreBlocks.clear();
   MFI.setSavePoint(nullptr);
   MFI.setRestorePoint(nullptr);
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
   return true;
 }
 
@@ -497,7 +483,6 @@ static void assignCalleeSavedSpillSlots(MachineFunction &F,
 
       MCRegister Reg = CS.getReg();
       const TargetRegisterClass *RC = RegInfo->getMinimalPhysRegClass(Reg);
-        LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "RC:" << RC->getID() << "\n");
 
       int FrameIdx;
       if (RegInfo->hasReservedSpillSlot(F, Reg, FrameIdx)) {
@@ -628,7 +613,6 @@ static void insertCSRSaves(MachineBasicBlock &SaveBlock,
           .addReg(Reg, getKillRegState(true));
       } else {
         const TargetRegisterClass *RC = TRI->getMinimalPhysRegClass(Reg);
-        LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "RC:" << RC->getID() << "\n");
         TII.storeRegToStackSlot(SaveBlock, I, Reg, true, CS.getFrameIdx(), RC,
                                 TRI, Register());
       }
@@ -656,7 +640,6 @@ static void insertCSRRestores(MachineBasicBlock &RestoreBlock,
           .addReg(CI.getDstReg(), getKillRegState(true));
       } else {
         const TargetRegisterClass *RC = TRI->getMinimalPhysRegClass(Reg);
-        LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "RC:" << RC->getID() << "\n");
         TII.loadRegFromStackSlot(RestoreBlock, I, Reg, CI.getFrameIdx(), RC,
                                  TRI, Register());
         assert(I != RestoreBlock.begin() &&
@@ -686,8 +669,6 @@ void PEI::spillCalleeSavedRegs(MachineFunction &MF) {
   // Determine which of the registers in the callee save list should be saved.
   BitVector SavedRegs;
   TFI->determineCalleeSaves(MF, SavedRegs, RS);
-  
-    LLVM_DEBUG(dbgs() << __FILE__ << __LINE__ << "\n");
 
   // Assign stack slots for any callee-saved registers that must be spilled.
   assignCalleeSavedSpillSlots(MF, SavedRegs, MinCSFrameIndex, MaxCSFrameIndex);
@@ -1416,10 +1397,7 @@ bool PEI::replaceFrameIndexDebugInstr(MachineFunction &MF, MachineInstr &MI,
     unsigned Size = MF.getFrameInfo().getObjectSize(FrameIdx);
 
     StackOffset Offset = TFI->getFrameIndexReference(MF, FrameIdx, Reg);
-
-    LLVM_DEBUG(dbgs() << __LINE__ << ":" << "Op=" << Op << "\n");
     Op.ChangeToRegister(Reg, false /*isDef*/);
-    LLVM_DEBUG(dbgs() << __LINE__ << ":" << "Op=" << Op << "\n");
 
     const DIExpression *DIExpr = MI.getDebugExpression();
 
@@ -1480,9 +1458,7 @@ bool PEI::replaceFrameIndexDebugInstr(MachineFunction &MF, MachineInstr &MI,
     assert(!refOffset.getScalable() &&
            "Frame offsets with a scalable component are not supported");
     Offset.setImm(Offset.getImm() + refOffset.getFixed() + SPAdj);
-    LLVM_DEBUG(dbgs() << __LINE__ << ":" << "Op=" << MI.getOperand(OpIdx) << "\n");
     MI.getOperand(OpIdx).ChangeToRegister(Reg, false /*isDef*/);
-    LLVM_DEBUG(dbgs() << __LINE__ << ":" << "Op=" << MI.getOperand(OpIdx) << "\n");
     return true;
   }
   return false;
