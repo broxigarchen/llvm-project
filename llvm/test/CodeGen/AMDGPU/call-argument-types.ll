@@ -5291,25 +5291,25 @@ define amdgpu_kernel void @test_call_external_void_func_v16i8() #0 {
 ; GFX11-TRUE16-NEXT:    s_addc_u32 s3, s3, external_void_func_v16i8@rel32@hi+12
 ; GFX11-TRUE16-NEXT:    s_mov_b32 s32, 0
 ; GFX11-TRUE16-NEXT:    s_waitcnt lgkmcnt(0)
-; GFX11-TRUE16-NEXT:    buffer_load_b128 v[16:19], off, s[4:7], 0
+; GFX11-TRUE16-NEXT:    buffer_load_b128 v[13:16], off, s[4:7], 0
 ; GFX11-TRUE16-NEXT:    s_mov_b64 s[6:7], s[0:1]
 ; GFX11-TRUE16-NEXT:    s_waitcnt vmcnt(0)
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v1, 8, v16
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v2, 16, v16
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v3, 24, v16
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v5, 8, v17
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v6, 16, v17
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v7, 24, v17
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v9, 8, v18
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v10, 16, v18
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v11, 24, v18
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v13, 8, v19
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v14, 16, v19
-; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v15, 24, v19
-; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v0.l, v16.l
-; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v4.l, v17.l
-; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v8.l, v18.l
-; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v12.l, v19.l
+; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v0.l, v13.l
+; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v4.l, v14.l
+; GFX11-TRUE16-NEXT:    v_mov_b16_e32 v8.l, v15.l
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v1, 8, v13
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v2, 16, v13
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v3, 24, v13
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v5, 8, v14
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v6, 16, v14
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v7, 24, v14
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v9, 8, v15
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v10, 16, v15
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v11, 24, v15
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v13, 8, v16
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v14, 16, v16
+; GFX11-TRUE16-NEXT:    v_lshrrev_b32_e32 v15, 24, v16
+; GFX11-TRUE16-NEXT:    v_mov_b32_e32 v12, v16
 ; GFX11-TRUE16-NEXT:    s_swappc_b64 s[30:31], s[2:3]
 ; GFX11-TRUE16-NEXT:    s_endpgm
 ;

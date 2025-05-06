@@ -109,12 +109,12 @@ define amdgpu_kernel void @f2(i32 %arg, i32 %arg1, i32 %arg2, i1 %arg3, i32 %arg
 ; GFX11-TRUE16-NEXT:    s_cbranch_scc0 .LBB2_8
 ; GFX11-TRUE16-NEXT:  ; %bb.5: ; %bb18.preheader
 ; GFX11-TRUE16-NEXT:    s_load_b128 s[28:31], s[16:17], 0x44
+; GFX11-TRUE16-NEXT:    s_mov_b32 s21, 0
 ; GFX11-TRUE16-NEXT:    s_waitcnt lgkmcnt(0)
 ; GFX11-TRUE16-NEXT:    s_mul_hi_u32 s8, s29, s28
 ; GFX11-TRUE16-NEXT:    s_mul_i32 s9, s29, s28
-; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1) | instskip(SKIP_1) | instid1(VALU_DEP_1)
+; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1) | instskip(NEXT) | instid1(VALU_DEP_1)
 ; GFX11-TRUE16-NEXT:    v_alignbit_b32 v0, s8, s9, 1
-; GFX11-TRUE16-NEXT:    s_mov_b32 s9, 0
 ; GFX11-TRUE16-NEXT:    v_readfirstlane_b32 s8, v0
 ; GFX11-TRUE16-NEXT:    v_mov_b32_e32 v0, 0
 ; GFX11-TRUE16-NEXT:    s_or_b32 s8, s8, 1
@@ -123,12 +123,13 @@ define amdgpu_kernel void @f2(i32 %arg, i32 %arg1, i32 %arg2, i1 %arg3, i32 %arg
 ; GFX11-TRUE16-NEXT:    s_mul_i32 s8, s8, s22
 ; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1) | instskip(NEXT) | instid1(SALU_CYCLE_1)
 ; GFX11-TRUE16-NEXT:    s_mul_i32 s8, s8, s20
-; GFX11-TRUE16-NEXT:    s_or_b32 s8, s19, s8
+; GFX11-TRUE16-NEXT:    s_or_b32 s20, s19, s8
 ; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1)
-; GFX11-TRUE16-NEXT:    s_lshl_b64 s[20:21], s[8:9], 1
-; GFX11-TRUE16-NEXT:    s_mov_b32 s8, s9
-; GFX11-TRUE16-NEXT:    global_load_u16 v1, v0, s[20:21]
+; GFX11-TRUE16-NEXT:    s_lshl_b64 s[8:9], s[20:21], 1
+; GFX11-TRUE16-NEXT:    global_load_u16 v1, v0, s[8:9]
 ; GFX11-TRUE16-NEXT:    v_cndmask_b32_e64 v0, 0, 1, s24
+; GFX11-TRUE16-NEXT:    s_mov_b32 s9, s21
+; GFX11-TRUE16-NEXT:    s_mov_b32 s8, s21
 ; GFX11-TRUE16-NEXT:    s_waitcnt vmcnt(0)
 ; GFX11-TRUE16-NEXT:    v_cmp_eq_u32_e32 vcc_lo, 0, v1
 ; GFX11-TRUE16-NEXT:    v_cndmask_b32_e64 v1, 0, 1, vcc_lo
@@ -136,19 +137,19 @@ define amdgpu_kernel void @f2(i32 %arg, i32 %arg1, i32 %arg2, i1 %arg3, i32 %arg
 ; GFX11-TRUE16-NEXT:    .p2align 6
 ; GFX11-TRUE16-NEXT:  .LBB2_6: ; %bb18
 ; GFX11-TRUE16-NEXT:    ; =>This Inner Loop Header: Depth=1
-; GFX11-TRUE16-NEXT:    s_and_b32 s8, 0xffff, s8
+; GFX11-TRUE16-NEXT:    s_and_b32 s9, 0xffff, s9
 ; GFX11-TRUE16-NEXT:    v_readfirstlane_b32 s13, v0
-; GFX11-TRUE16-NEXT:    s_cmp_lg_u32 s8, 0
-; GFX11-TRUE16-NEXT:    s_cselect_b32 s8, -1, 0
+; GFX11-TRUE16-NEXT:    s_cmp_lg_u32 s9, 0
+; GFX11-TRUE16-NEXT:    s_cselect_b32 s9, -1, 0
 ; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1) | instskip(SKIP_1) | instid1(SALU_CYCLE_1)
-; GFX11-TRUE16-NEXT:    v_cndmask_b32_e64 v2, 0, 1, s8
-; GFX11-TRUE16-NEXT:    s_and_b32 s8, s1, s8
-; GFX11-TRUE16-NEXT:    s_and_b32 s8, s8, exec_lo
+; GFX11-TRUE16-NEXT:    v_cndmask_b32_e64 v2, 0, 1, s9
+; GFX11-TRUE16-NEXT:    s_and_b32 s9, s1, s9
+; GFX11-TRUE16-NEXT:    s_and_b32 s9, s9, exec_lo
 ; GFX11-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_1)
 ; GFX11-TRUE16-NEXT:    v_readfirstlane_b32 s19, v2
-; GFX11-TRUE16-NEXT:    s_cselect_b32 s8, s19, s13
-; GFX11-TRUE16-NEXT:    s_and_b32 s13, 0xffff, s9
-; GFX11-TRUE16-NEXT:    s_and_b32 s8, s8, 1
+; GFX11-TRUE16-NEXT:    s_cselect_b32 s9, s19, s13
+; GFX11-TRUE16-NEXT:    s_and_b32 s13, 0xffff, s8
+; GFX11-TRUE16-NEXT:    s_and_b32 s9, s9, 1
 ; GFX11-TRUE16-NEXT:    s_cmp_lg_u32 s13, 0
 ; GFX11-TRUE16-NEXT:    s_cselect_b32 s13, -1, 0
 ; GFX11-TRUE16-NEXT:    s_and_b32 s20, s2, exec_lo
@@ -160,7 +161,7 @@ define amdgpu_kernel void @f2(i32 %arg, i32 %arg1, i32 %arg2, i1 %arg3, i32 %arg
 ; GFX11-TRUE16-NEXT:    s_bitcmp1_b32 s13, 0
 ; GFX11-TRUE16-NEXT:    s_cselect_b32 s13, 0x100, 0
 ; GFX11-TRUE16-NEXT:    s_delay_alu instid0(SALU_CYCLE_1)
-; GFX11-TRUE16-NEXT:    s_or_b32 s9, s13, s9
+; GFX11-TRUE16-NEXT:    s_or_b32 s8, s13, s8
 ; GFX11-TRUE16-NEXT:    s_cbranch_vccz .LBB2_6
 ; GFX11-TRUE16-NEXT:  ; %bb.7: ; %Flow
 ; GFX11-TRUE16-NEXT:    s_mov_b32 s8, 0

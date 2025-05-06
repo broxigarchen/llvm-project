@@ -949,15 +949,16 @@ define amdgpu_kernel void @multiple_use_fadd_multi_fmad_f16(ptr addrspace(1) %ou
 ;
 ; GFX11-DENORM-TRUE16-LABEL: multiple_use_fadd_multi_fmad_f16:
 ; GFX11-DENORM-TRUE16:       ; %bb.0:
-; GFX11-DENORM-TRUE16-NEXT:    s_clause 0x2
 ; GFX11-DENORM-TRUE16-NEXT:    s_load_b64 s[0:1], s[4:5], 0x8
-; GFX11-DENORM-TRUE16-NEXT:    s_load_b32 s6, s[4:5], 0x8
+; GFX11-DENORM-TRUE16-NEXT:    s_waitcnt lgkmcnt(0)
+; GFX11-DENORM-TRUE16-NEXT:    s_clause 0x1
+; GFX11-DENORM-TRUE16-NEXT:    s_load_b32 s1, s[4:5], 0x8
 ; GFX11-DENORM-TRUE16-NEXT:    s_load_b64 s[2:3], s[4:5], 0x0
 ; GFX11-DENORM-TRUE16-NEXT:    v_mov_b32_e32 v1, 0
+; GFX11-DENORM-TRUE16-NEXT:    s_lshr_b32 s4, s0, 16
 ; GFX11-DENORM-TRUE16-NEXT:    s_waitcnt lgkmcnt(0)
-; GFX11-DENORM-TRUE16-NEXT:    s_lshr_b32 s0, s0, 16
-; GFX11-DENORM-TRUE16-NEXT:    v_fma_f16 v0.h, |s6|, 2.0, s1
-; GFX11-DENORM-TRUE16-NEXT:    v_fma_f16 v0.l, |s6|, 2.0, s0
+; GFX11-DENORM-TRUE16-NEXT:    v_fma_f16 v0.h, |s1|, 2.0, s0
+; GFX11-DENORM-TRUE16-NEXT:    v_fma_f16 v0.l, |s1|, 2.0, s4
 ; GFX11-DENORM-TRUE16-NEXT:    global_store_b16 v1, v0, s[2:3] dlc
 ; GFX11-DENORM-TRUE16-NEXT:    s_waitcnt_vscnt null, 0x0
 ; GFX11-DENORM-TRUE16-NEXT:    global_store_d16_hi_b16 v1, v0, s[2:3] offset:2 dlc
@@ -990,10 +991,10 @@ define amdgpu_kernel void @multiple_use_fadd_multi_fmad_f16(ptr addrspace(1) %ou
 ; GFX11-FLUSH-TRUE16-NEXT:    v_mov_b32_e32 v1, 0
 ; GFX11-FLUSH-TRUE16-NEXT:    s_waitcnt lgkmcnt(0)
 ; GFX11-FLUSH-TRUE16-NEXT:    v_add_f16_e64 v0.l, |s6|, |s6|
-; GFX11-FLUSH-TRUE16-NEXT:    s_lshr_b32 s0, s0, 16
+; GFX11-FLUSH-TRUE16-NEXT:    s_lshr_b32 s1, s0, 16
 ; GFX11-FLUSH-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_1) | instid1(SALU_CYCLE_1)
-; GFX11-FLUSH-TRUE16-NEXT:    v_add_f16_e32 v0.h, s0, v0.l
-; GFX11-FLUSH-TRUE16-NEXT:    v_add_f16_e32 v0.l, s1, v0.l
+; GFX11-FLUSH-TRUE16-NEXT:    v_add_f16_e32 v0.h, s1, v0.l
+; GFX11-FLUSH-TRUE16-NEXT:    v_add_f16_e32 v0.l, s0, v0.l
 ; GFX11-FLUSH-TRUE16-NEXT:    global_store_d16_hi_b16 v1, v0, s[2:3] dlc
 ; GFX11-FLUSH-TRUE16-NEXT:    s_waitcnt_vscnt null, 0x0
 ; GFX11-FLUSH-TRUE16-NEXT:    global_store_b16 v1, v0, s[2:3] offset:2 dlc
