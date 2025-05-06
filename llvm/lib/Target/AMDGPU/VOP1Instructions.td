@@ -1489,7 +1489,12 @@ def : GCNPat<
 >;
 
 def : GCNPat<
-  (i16 (trunc i32:$src)),
+  (i16 (UniformUnaryFrag<trunc> i32:$src)),
+  (COPY $src)
+>;
+
+def : GCNPat<
+  (i16 (DivergentUnaryFrag<trunc> i32:$src)),
   (EXTRACT_SUBREG $src, lo16)
 >;
 
