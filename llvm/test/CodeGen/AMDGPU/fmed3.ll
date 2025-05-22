@@ -9,6 +9,10 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=0 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
 
 define amdgpu_kernel void @v_test_nnan_input_fmed3_r_i_i_f32(ptr addrspace(1) %out, ptr addrspace(1) %aptr) #1 {
 ; SI-SDAG-LABEL: v_test_nnan_input_fmed3_r_i_i_f32:

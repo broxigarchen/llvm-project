@@ -5,6 +5,10 @@
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-SDAG-FAKE16 %s
 ; RUN: llc -global-isel -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11-GISEL-TRUE16 %s
 ; RUN: llc -global-isel -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-GISEL-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11-SDAG-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-SDAG-FAKE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11-GISEL-TRUE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-GISEL-FAKE16 %s
 
 define half @v_sqrt_f16(half %src)  {
 ; GCN-LABEL: v_sqrt_f16:

@@ -3,6 +3,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=fiji < %s | FileCheck -check-prefixes=VI,VI-SAFE %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SAFE,GFX11-SAFE-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SAFE,GFX11-SAFE-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SAFE,GFX11-SAFE-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SAFE,GFX11-SAFE-FAKE16 %s
 
 ; RUN: llc -mtriple=amdgcn -mcpu=hawaii -enable-no-signed-zeros-fp-math < %s | FileCheck -check-prefixes=CI,CI-NSZ %s
 ; RUN: llc -mtriple=amdgcn -mcpu=fiji -enable-no-signed-zeros-fp-math < %s | FileCheck -check-prefixes=VI,VI-NSZ %s

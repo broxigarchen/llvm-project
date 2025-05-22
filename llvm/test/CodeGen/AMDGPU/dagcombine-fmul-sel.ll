@@ -9,6 +9,10 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
 ; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
 ; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
 
 define float @fmul_select_f32_test1(float %x, i32 %bool.arg1, i32 %bool.arg2) {
 ; GFX7-LABEL: fmul_select_f32_test1:

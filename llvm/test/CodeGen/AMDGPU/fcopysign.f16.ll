@@ -2,8 +2,10 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=tahiti < %s | FileCheck -enable-var-scope --check-prefixes=SI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=tonga < %s | FileCheck -enable-var-scope --check-prefixes=VI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx900 < %s | FileCheck -enable-var-scope --check-prefixes=GFX9 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -enable-var-scope --check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 declare half @llvm.copysign.f16(half, half) #0
 declare float @llvm.copysign.f32(float, float) #0

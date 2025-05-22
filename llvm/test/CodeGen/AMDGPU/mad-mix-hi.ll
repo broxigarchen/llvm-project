@@ -4,6 +4,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx900 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX9,SDAG-GFX9 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=fiji -verify-machineinstrs < %s | FileCheck -check-prefixes=VI,SDAG-VI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=hawaii -verify-machineinstrs < %s | FileCheck -check-prefixes=SDAG-CI %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,SDAG-GFX11,SDAG-GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,SDAG-GFX11,SDAG-GFX11-FAKE16 %s
 
 ; FIXME-TRUE16. fix gisel
 ; XUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GISEL-GFX11,GISEL-GFX11-TRUE16 %s

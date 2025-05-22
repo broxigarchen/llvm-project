@@ -2,8 +2,10 @@
 ; RUN: llc -mtriple=amdgcn-- -mcpu=hawaii -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX789,CI %s
 ; RUN: llc -mtriple=amdgcn-- -mcpu=fiji -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX789,GFX89,GFX8 %s
 ; RUN: llc -mtriple=amdgcn-- -mcpu=gfx900 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX789,GFX89,GFX9 %s
-; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define i1 @i1_func_void() #0 {
 ; GFX789-LABEL: i1_func_void:

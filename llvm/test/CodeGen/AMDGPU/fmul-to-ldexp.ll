@@ -7,6 +7,10 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
 ; RUN: llc -global-isel=1 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
 ; RUN: llc -global-isel=1 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-SDAG,GFX11-SDAG-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
+; RUN: llc -global-isel=1 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
+; RUN: llc -global-isel=1 -mtriple=amdgcn-amd-amdpal -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
 
 ; Test fmul by power of 2 which is better emitted as ldexp
 

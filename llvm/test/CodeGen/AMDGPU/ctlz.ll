@@ -4,8 +4,10 @@
 ; RUN: llc < %s -mtriple=r600 -mcpu=cypress -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefix=EG
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefix=GFX10
 ; RUN: llc < %s -global-isel -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefix=GFX10-GISEL
-; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11,GFX11-TRUE16
-; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11,GFX11-FAKE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs | FileCheck %s -enable-var-scope --check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16
 
 declare i7 @llvm.ctlz.i7(i7, i1) nounwind readnone
 declare i8 @llvm.ctlz.i8(i8, i1) nounwind readnone

@@ -6,6 +6,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx9-generic -verify-machineinstrs --amdhsa-code-object-version=6 < %s | FileCheck -check-prefixes=GFX9GEN,SDAG-GFX9GEN %s
 ; RUN: llc -mtriple=amdgcn -mcpu=fiji -verify-machineinstrs < %s | FileCheck -check-prefixes=VI,SDAG-VI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=hawaii -verify-machineinstrs < %s | FileCheck -check-prefixes=CI,SDAG-CI %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX1100,SDAG-GFX1100,SDAG-GFX1100-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX1100,SDAG-GFX1100,SDAG-GFX1100-FAKE16 %s
 
 ; FIXME-TRUE16. enable gisel
 ; XUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX1100,GISEL-GFX1100,GISEL-GFX1100-TRUE16 %s

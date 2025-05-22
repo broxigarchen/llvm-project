@@ -3,8 +3,10 @@
 ; RUN: llc -mtriple=amdgcn -verify-machineinstrs < %s | FileCheck -check-prefixes=SI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=tonga -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX8 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX10 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define amdgpu_kernel void @rotl_i32(ptr addrspace(1) %in, i32 %x, i32 %y) {
 ; R600-LABEL: rotl_i32:

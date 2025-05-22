@@ -3,6 +3,8 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx900 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GCN,GFX9,GFX89 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GCN,GFX11-TRUE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GCN,GFX11-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GCN,GFX11-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GCN,GFX11-FAKE16 %s
 
 ; GCN-LABEL: {{^}}v_mul_i16:
 ; SI: v_and_b32_e32 v{{[0-9]+}}, 0xffff, v{{[0-9]+}}

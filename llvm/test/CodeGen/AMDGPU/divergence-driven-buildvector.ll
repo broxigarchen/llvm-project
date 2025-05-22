@@ -2,8 +2,10 @@
 ; RUN: llc -mtriple=amdgcn < %s | FileCheck -check-prefix=GCN %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx900 < %s | FileCheck -check-prefix=GFX9 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx906 < %s | FileCheck -check-prefix=GFX906 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define amdgpu_kernel void @uniform_vec_0_i16(ptr addrspace(1) %out, i16 %a) {
 ; GCN-LABEL: uniform_vec_0_i16:

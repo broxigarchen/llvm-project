@@ -1,6 +1,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=fiji -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefix=GCN -check-prefix=VI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefix=GFX11-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefix=GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -check-prefix=GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -check-prefix=GFX11-FAKE16 %s
 
 declare half @llvm.amdgcn.rcp.f16(half %a)
 

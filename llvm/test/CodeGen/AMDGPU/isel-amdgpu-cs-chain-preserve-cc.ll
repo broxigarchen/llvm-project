@@ -11,6 +11,14 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=DAGISEL-GFX11-WF64,DAGISEL-GFX11-WF64-FAKE16 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1030 -mattr=+wavefrontsize32 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefix=DAGISEL-GFX10-WF32 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1030 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefix=DAGISEL-GFX10-WF64 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=+wavefrontsize32 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=GISEL-GFX11,GISEL-GFX11-TRUE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=+wavefrontsize32 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=GISEL-GFX11,GISEL-GFX11-FAKE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=GISEL-GFX11,GISEL-GFX11-TRUE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=GISEL-GFX11,GISEL-GFX11-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=+wavefrontsize32 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=DAGISEL-GFX11-WF32,DAGISEL-GFX11-WF32-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=+wavefrontsize32 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=DAGISEL-GFX11-WF32,DAGISEL-GFX11-WF32-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=DAGISEL-GFX11-WF64,DAGISEL-GFX11-WF64-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=+wavefrontsize64 -stop-after=finalize-isel -verify-machineinstrs < %s | FileCheck -check-prefixes=DAGISEL-GFX11-WF64,DAGISEL-GFX11-WF64-FAKE16 %s
 
 ; We only care about which physical registers the parameters are copied from;
 ; the function bodies are just some arbitrary uses.

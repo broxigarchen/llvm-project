@@ -3,10 +3,14 @@
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=tonga -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=VI,VI-FLUSH %s
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1010 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX10,GFX10-DENORM %s
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1010 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX10,GFX10-FLUSH %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11-DENORM,GFX11-DENORM-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11-DENORM,GFX11-DENORM-FAKE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11-FLUSH,GFX11-FLUSH-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11-FLUSH,GFX11-FLUSH-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16,GFX11-DENORM,GFX11-DENORM-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16,GFX11-DENORM,GFX11-DENORM-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16,GFX11-FLUSH,GFX11-FLUSH-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16,GFX11-FLUSH,GFX11-FLUSH-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16,GFX11-DENORM,GFX11-DENORM-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16,GFX11-DENORM,GFX11-DENORM-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16,GFX11-FLUSH,GFX11-FLUSH-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign  -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16,GFX11-FLUSH,GFX11-FLUSH-FAKE16 %s
 
 ; Make sure (fmul (fadd x, x), c) -> (fmul x, (fmul 2.0, c)) doesn't
 ; make add an instruction if the fadd has more than one use.

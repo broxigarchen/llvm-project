@@ -2,8 +2,10 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=kaveri -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=CIVI,CI %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=tonga -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=CIVI,GFX8 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx900 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX9 %s
-; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1100 -mattr=+real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1100 -mattr=-real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1100 -mattr=+real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1100 -mattr=-real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1200 -mattr=+real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mcpu=gfx1200 -mattr=-real-true16 -mtriple=amdgcn--amdhsa -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 ; FIXME: Should be able to do scalar op
 define amdgpu_kernel void @s_fneg_f16(ptr addrspace(1) %out, half %in) #0 {

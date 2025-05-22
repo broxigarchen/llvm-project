@@ -5,6 +5,10 @@
 ; RUN: llc -mtriple=amdgcn -global-isel -mcpu=gfx1010 < %s | FileCheck %s --check-prefixes=CHECK,GISEL
 ; RUN: llc -mtriple=amdgcn -global-isel -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,GISEL,GISEL-TRUE16
 ; RUN: llc -mtriple=amdgcn -global-isel -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,GISEL,GISEL-FAKE16
+; RUN: llc -mtriple=amdgcn -global-isel=0 -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,DAGISEL,DAGISEL-TRUE16
+; RUN: llc -mtriple=amdgcn -global-isel=0 -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,DAGISEL,DAGISEL-FAKE16
+; RUN: llc -mtriple=amdgcn -global-isel -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,GISEL,GISEL-TRUE16
+; RUN: llc -mtriple=amdgcn -global-isel -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck %s --check-prefixes=CHECK,GISEL,GISEL-FAKE16
 
 declare i64 @llvm.amdgcn.ballot.i64(i1)
 declare i64 @llvm.ctpop.i64(i64)

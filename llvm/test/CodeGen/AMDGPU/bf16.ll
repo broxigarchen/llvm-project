@@ -6,6 +6,8 @@
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1010 | FileCheck %s -check-prefixes=GFX10
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 | FileCheck %s -check-prefixes=GFX11,GFX11TRUE16
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 | FileCheck %s -check-prefixes=GFX11,GFX11FAKE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 | FileCheck %s -check-prefixes=GFX11,GFX11TRUE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 | FileCheck %s -check-prefixes=GFX11,GFX11FAKE16
 
 define void @test_load_store(ptr addrspace(1) %in, ptr addrspace(1) %out) {
 ; GCN-LABEL: test_load_store:

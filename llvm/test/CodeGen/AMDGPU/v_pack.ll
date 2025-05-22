@@ -5,6 +5,10 @@
 ; RUN: llc -global-isel -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-FAKE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GCN-REAL16 %s
 ; RUN: llc -global-isel -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-REAL16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GCN-FAKE16 %s
+; RUN: llc -global-isel -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GCN-REAL16 %s
+; RUN: llc -global-isel -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-REAL16 %s
 
 declare i32 @llvm.amdgcn.workitem.id.x() #1
 

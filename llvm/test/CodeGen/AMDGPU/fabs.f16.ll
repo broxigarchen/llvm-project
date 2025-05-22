@@ -2,8 +2,10 @@
 ; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=kaveri -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=CI %s
 ; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=tonga -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=VI %s
 ; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx900 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX9 %s
-; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn--amdhsa -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck -enable-var-scope -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 ; DAGCombiner will transform:
 ; (fabs (f16 bitcast (i16 a))) => (f16 bitcast (and (i16 a), 0x7FFFFFFF))

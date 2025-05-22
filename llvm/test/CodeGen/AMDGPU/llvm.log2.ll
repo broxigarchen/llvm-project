@@ -9,6 +9,10 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-SDAG,GFX1100-SDAG-FAKE16 %s
 ; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-GISEL,GFX1100-GISEL-TRUE16 %s
 ; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-GISEL,GFX1100-GISEL-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-SDAG,GFX1100-SDAG-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-SDAG,GFX1100-SDAG-FAKE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-GISEL,GFX1100-GISEL-TRUE16 %s
+; RUN: llc -global-isel=1 -global-isel-abort=2 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX1100,GFX1100-GISEL,GFX1100-GISEL-FAKE16 %s
 
 ; RUN: llc -mtriple=r600 -mcpu=redwood < %s | FileCheck -check-prefix=R600 %s
 ; RUN: llc -mtriple=r600 -mcpu=cayman < %s | FileCheck -check-prefix=CM %s

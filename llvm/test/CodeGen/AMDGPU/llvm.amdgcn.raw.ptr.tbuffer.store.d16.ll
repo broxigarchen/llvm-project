@@ -5,6 +5,8 @@
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs | FileCheck -check-prefixes=GFX10-PACKED %s
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-vopd=0 -verify-machineinstrs | FileCheck -check-prefixes=GFX11-PACKED,GFX11-PACKED-TRUE16 %s
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-vopd=0 -verify-machineinstrs | FileCheck -check-prefixes=GFX11-PACKED,GFX11-PACKED-FAKE16 %s
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-vopd=0 -verify-machineinstrs | FileCheck -check-prefixes=GFX11-PACKED,GFX11-PACKED-TRUE16 %s
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-vopd=0 -verify-machineinstrs | FileCheck -check-prefixes=GFX11-PACKED,GFX11-PACKED-FAKE16 %s
 
 define amdgpu_kernel void @tbuffer_store_d16_x(ptr addrspace(8) %rsrc, half %data) {
 ; PREGFX10-UNPACKED-LABEL: tbuffer_store_d16_x:

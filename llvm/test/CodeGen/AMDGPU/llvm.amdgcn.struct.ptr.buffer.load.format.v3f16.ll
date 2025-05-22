@@ -2,9 +2,11 @@
 ; RUN: llc -mcpu=gfx1010 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefix=GFX10 %s
 ; RUN: llc -mcpu=gfx900 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefix=GFX9 %s
 ; RUN: llc -mcpu=gfx810 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefix=GFX8 %s
-; RUN: llc -mcpu=gfx1100 -mattr=+real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mcpu=gfx1100 -mattr=-real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mcpu=gfx1100 -mattr=+real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mcpu=gfx1100 -mattr=-real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
 @esgs_ring = external addrspace(3) global [0 x i32], align 65536
+; RUN: llc -mcpu=gfx1200 -mattr=+real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mcpu=gfx1200 -mattr=-real-true16 -mtriple=amdgcn-- -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define amdgpu_gs void @main(ptr addrspace(8) %arg, i32 %arg1) {
 ; GFX10-LABEL: main:

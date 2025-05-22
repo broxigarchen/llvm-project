@@ -12,6 +12,8 @@
 ; RUN:  llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck --check-prefixes=GFX11CHECK,GFX11SELDAG,GFX11SELDAG-FAKE16 %s
 ; xUN:  llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck --check-prefixes=GFX11CHECK,GFX11GLISEL,GFX11GLISEL-TRUE16 %s
 ; xUN:  llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck --check-prefixes=GFX11CHECK,GFX11GLISEL,GFX11GLISEL-FAKE16 %s
+; RUN:  llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck --check-prefixes=GFX11CHECK,GFX11SELDAG,GFX11SELDAG-TRUE16 %s
+; RUN:  llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck --check-prefixes=GFX11CHECK,GFX11SELDAG,GFX11SELDAG-FAKE16 %s
 
 define amdgpu_kernel void @sgpr_isnan_bf16(ptr addrspace(1) %out, bfloat %x) {
 ; GFX7CHECK-LABEL: sgpr_isnan_bf16:

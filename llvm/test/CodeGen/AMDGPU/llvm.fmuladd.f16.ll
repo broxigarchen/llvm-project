@@ -9,6 +9,10 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-FLUSH,GFX11-FLUSH-FAKE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math=ieee -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-DENORM,GFX11-DENORM-TRUE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math=ieee -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-DENORM,GFX11-DENORM-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-FLUSH,GFX11-FLUSH-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -denormal-fp-math=preserve-sign -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-FLUSH,GFX11-FLUSH-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -denormal-fp-math=ieee -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-DENORM,GFX11-DENORM-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -denormal-fp-math=ieee -denormal-fp-math-f32=preserve-sign -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11-DENORM,GFX11-DENORM-FAKE16 %s
 
 declare half @llvm.fmuladd.f16(half %a, half %b, half %c)
 declare <2 x half> @llvm.fmuladd.v2f16(<2 x half> %a, <2 x half> %b, <2 x half> %c)

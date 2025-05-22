@@ -7,6 +7,10 @@
 ; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-FLAT,GFX11-FLAT-FAKE16
 ; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=+real-true16 -global-isel -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-GISEL,GFX11-GISEL-TRUE16
 ; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -global-isel -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-GISEL,GFX11-GISEL-FAKE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-FLAT,GFX11-FLAT-TRUE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-FLAT,GFX11-FLAT-FAKE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=+real-true16 -global-isel -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-GISEL,GFX11-GISEL-TRUE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-real-true16 -global-isel -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11-GISEL,GFX11-GISEL-FAKE16
 
 declare i32 @llvm.amdgcn.workitem.id.x() #1
 

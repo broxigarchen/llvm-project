@@ -3,6 +3,8 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=fiji -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=VI %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16,-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16,-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16,-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16,-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 
 declare half @llvm.ceil.f16(half %a)
 declare <2 x half> @llvm.ceil.v2f16(<2 x half> %a)

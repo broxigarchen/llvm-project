@@ -14,6 +14,12 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=0 -mattr=-flat-for-global,-real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-SDAG,GFX11-UNSAFE-DAG-FAKE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-flat-for-global,+real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-GISEL,GFX11-UNSAFE-GISEL-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-flat-for-global,-real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-GISEL,GFX11-UNSAFE-GISEL-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-SDAG,GFX11-SAFE-SDAG %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-GISEL,GFX11-SAFE-GISEL %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-flat-for-global,+real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-SDAG,GFX11-UNSAFE-DAG-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-flat-for-global,-real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-SDAG,GFX11-UNSAFE-DAG-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-flat-for-global,+real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-GISEL,GFX11-UNSAFE-GISEL-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-flat-for-global,-real-true16 -enable-unsafe-fp-math -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-GISEL,GFX11-UNSAFE-GISEL-FAKE16 %s
 
 define amdgpu_kernel void @fptrunc_f64_to_f32(ptr addrspace(1) %out, double %in) {
 ; SI-LABEL: fptrunc_f64_to_f32:

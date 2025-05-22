@@ -5,6 +5,8 @@
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1010 < %s | FileCheck -check-prefixes=GCN,GFX10 %s
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX11-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX11-FAKE16 %s
 
 define half @v_constrained_fptrunc_f32_to_f16_fpexcept_strict(float %arg) #0 {
 ; SI-LABEL: v_constrained_fptrunc_f32_to_f16_fpexcept_strict:

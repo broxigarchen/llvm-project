@@ -4,9 +4,11 @@
 ; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=tonga -verify-machineinstrs < %s | FileCheck --check-prefix=VI %s
 ; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx900 -verify-machineinstrs < %s | FileCheck --check-prefix=GFX9 %s
 ; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs < %s | FileCheck --check-prefix=GFX10 %s
-; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
 ; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1150 -verify-machineinstrs < %s | FileCheck --check-prefix=GFX1150 %s
+; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN:  llc -amdgpu-scalarize-global-loads=false -enable-misched=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck --check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define amdgpu_kernel void @frem_f16(ptr addrspace(1) %out, ptr addrspace(1) %in1,
 ; SI-LABEL: frem_f16:

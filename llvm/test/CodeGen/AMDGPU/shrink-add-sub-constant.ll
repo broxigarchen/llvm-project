@@ -11,6 +11,10 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
 ; RUN: llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
 ; RUN: llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-SDAG,GFX11-SDAG-FAKE16 %s
+; RUN: llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-TRUE16 %s
+; RUN: llc -global-isel=1 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck --check-prefixes=GFX11,GFX11-GISEL,GFX11-GISEL-FAKE16 %s
 
 ; Test that add/sub with a constant is swapped to sub/add with negated
 ; constant to minimize code size.

@@ -3,10 +3,14 @@
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx900 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch < %s | FileCheck -check-prefixes=GCN,FLATSCR %s
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1010 -verify-machineinstrs -mattr=-unaligned-access-mode < %s | FileCheck -check-prefixes=GFX10,GFX10_DEFAULT %s
 ; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1010 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch < %s | FileCheck -check-prefixes=GFX10,FLATSCR_GFX10 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode,+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode,-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode,+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode,-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -verify-machineinstrs -mattr=-unaligned-access-mode,+real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -verify-machineinstrs -mattr=-unaligned-access-mode,-real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,+real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -verify-machineinstrs -mattr=-unaligned-access-mode -mattr=+enable-flat-scratch,-real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define <2 x half> @chain_hi_to_lo_private() {
 ; GFX900-LABEL: chain_hi_to_lo_private:

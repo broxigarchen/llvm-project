@@ -4,6 +4,8 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=r600 -mcpu=cypress -verify-machineinstrs < %s | FileCheck -check-prefixes=CYPRESS %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 
 declare i16 @llvm.convert.to.fp16.f32(float) nounwind readnone
 

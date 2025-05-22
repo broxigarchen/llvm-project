@@ -5,6 +5,8 @@
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1010 -verify-machineinstrs | FileCheck -enable-var-scope -check-prefixes=GFX10-PACKED %s
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 -verify-machineinstrs | FileCheck -enable-var-scope -check-prefixes=GFX11-PACKED,GFX11-PACKED-TRUE16 %s
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 -verify-machineinstrs | FileCheck -enable-var-scope -check-prefixes=GFX11-PACKED,GFX11-PACKED-FAKE16 %s
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 -verify-machineinstrs | FileCheck -enable-var-scope -check-prefixes=GFX11-PACKED,GFX11-PACKED-TRUE16 %s
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 -verify-machineinstrs | FileCheck -enable-var-scope -check-prefixes=GFX11-PACKED,GFX11-PACKED-FAKE16 %s
 
 define amdgpu_ps half @tbuffer_load_d16_x(ptr addrspace(8) inreg %rsrc) {
 ; PREGFX10-UNPACKED-LABEL: tbuffer_load_d16_x:

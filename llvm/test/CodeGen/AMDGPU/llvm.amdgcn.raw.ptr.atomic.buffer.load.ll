@@ -3,6 +3,10 @@
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -global-isel=0 | FileCheck %s -check-prefixes=CHECK,CHECK-FAKE16
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -global-isel=1 | FileCheck %s -check-prefixes=CHECK,CHECK-GISEL-TRUE16
 ; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -global-isel=1 | FileCheck %s -check-prefixes=CHECK,CHECK-FAKE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -global-isel=0 | FileCheck %s -check-prefixes=CHECK,CHECK-SDAG-TRUE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -global-isel=0 | FileCheck %s -check-prefixes=CHECK,CHECK-FAKE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -global-isel=1 | FileCheck %s -check-prefixes=CHECK,CHECK-GISEL-TRUE16
+; RUN: llc < %s -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -global-isel=1 | FileCheck %s -check-prefixes=CHECK,CHECK-FAKE16
 
 define amdgpu_kernel void @raw_ptr_atomic_buffer_ptr_load_i32(ptr addrspace(8) %ptr) {
 ; CHECK-LABEL: raw_ptr_atomic_buffer_ptr_load_i32:

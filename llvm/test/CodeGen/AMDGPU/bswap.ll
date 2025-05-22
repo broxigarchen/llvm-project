@@ -2,7 +2,9 @@
 ; RUN: llc < %s -mtriple=amdgcn-- -verify-machineinstrs | FileCheck %s --check-prefix=SI
 ; RUN: llc < %s -mtriple=amdgcn-- -mcpu=tonga -mattr=-flat-for-global -verify-machineinstrs | FileCheck %s --check-prefix=VI
 ; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11,GFX11-REAL16
-; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11,GFX11-FAKE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11,GFX11-REAL16
+; RUN: llc < %s -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs | FileCheck %s --check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16
 
 declare i16 @llvm.bswap.i16(i16) nounwind readnone
 declare <2 x i16> @llvm.bswap.v2i16(<2 x i16>) nounwind readnone

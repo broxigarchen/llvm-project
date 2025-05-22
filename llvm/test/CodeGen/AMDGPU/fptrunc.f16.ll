@@ -11,6 +11,10 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -global-isel=0 -mattr=-flat-for-global,-real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-SDAG-FAKE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-flat-for-global,+real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-TRUE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-flat-for-global,-real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-flat-for-global,+real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-SDAG-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-flat-for-global,-real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-SDAG-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-flat-for-global,+real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-flat-for-global,-real-true16 -denormal-fp-math=preserve-sign -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -enable-var-scope -check-prefixes=GFX11-GISEL-FAKE16 %s
 
 define amdgpu_kernel void @fptrunc_f32_to_f16(
 ; SI-SDAG-LABEL: fptrunc_f32_to_f16:

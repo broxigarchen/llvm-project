@@ -5,6 +5,10 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=+real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-GISEL %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=0 -mattr=-real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-FAKE16-SDAG %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -global-isel=1 -mattr=-real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-FAKE16-GISEL %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=+real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-SDAG %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=+real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-GISEL %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=0 -mattr=-real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-FAKE16-SDAG %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -global-isel=1 -mattr=-real-true16,-flat-for-global -verify-machineinstrs -enable-misched=false < %s | FileCheck -check-prefixes=GFX11-FAKE16-GISEL %s
 
 define amdgpu_kernel void @fadd_f16(
 ; SI-LABEL: fadd_f16:

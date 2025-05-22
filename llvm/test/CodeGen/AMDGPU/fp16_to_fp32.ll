@@ -5,6 +5,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 ; RUN: llc -mtriple=r600 -mcpu=cypress -verify-machineinstrs < %s | FileCheck -check-prefixes=CYPRESS %s
 ; RUN: llc -mtriple=r600 -mcpu=cayman -verify-machineinstrs < %s | FileCheck -check-prefixes=CAYMAN %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 
 declare float @llvm.convert.from.fp16.f32(i16) nounwind readnone
 

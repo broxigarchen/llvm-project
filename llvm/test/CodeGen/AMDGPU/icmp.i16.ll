@@ -2,6 +2,8 @@
 ; RUN: llc -mtriple=amdgcn -verify-machineinstrs < %s| FileCheck -check-prefix=GCN -check-prefix=SI %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s| FileCheck -check-prefixes=GCN,GFX11-FAKE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s| FileCheck -check-prefixes=GCN,GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s| FileCheck -check-prefixes=GCN,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s| FileCheck -check-prefixes=GCN,GFX11-TRUE16 %s
 
 ;;;==========================================================================;;;
 ;; 16-bit integer comparisons

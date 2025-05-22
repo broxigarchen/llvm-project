@@ -5,6 +5,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1010 -denormal-fp-math-f32=preserve-sign -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX10 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -denormal-fp-math-f32=preserve-sign -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -denormal-fp-math-f32=preserve-sign -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -denormal-fp-math-f32=preserve-sign -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -denormal-fp-math-f32=preserve-sign -verify-machineinstrs < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 
 ; Make sure fdiv is promoted to f32.
 

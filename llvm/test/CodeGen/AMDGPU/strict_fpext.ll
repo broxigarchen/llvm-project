@@ -3,8 +3,10 @@
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx803 < %s | FileCheck -check-prefixes=GCN,GFX89,GFX8 %s
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx900 < %s | FileCheck -check-prefixes=GCN,GFX89,GFX9 %s
 ; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1010 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX10 %s
-; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-TRUE16 %s
-; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -mtriple=amdgcn-mesa-mesa3d -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GCN,GFX1011,GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define float @v_constrained_fpext_f16_to_f32_fpexcept_strict(half %arg) #0 {
 ; SI-LABEL: v_constrained_fpext_f16_to_f32_fpexcept_strict:

@@ -7,6 +7,8 @@
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1012 < %s | FileCheck -check-prefixes=GFX10-DL %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11-DL,GFX11-DL-TRUE16 %s
 ; RUN: llc -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-DL,GFX11-DL-FAKE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11-DL,GFX11-DL-TRUE16 %s
+; RUN: llc -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11-DL,GFX11-DL-FAKE16 %s
 
 define amdgpu_kernel void @udot4_acc32(ptr addrspace(1) %src1,
 ; GFX7-LABEL: udot4_acc32:

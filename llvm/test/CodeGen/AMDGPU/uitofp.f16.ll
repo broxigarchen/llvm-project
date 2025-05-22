@@ -3,6 +3,8 @@
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=fiji -mattr=-flat-for-global -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -check-prefixes=VI %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
 ; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1100 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,+real-true16 -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -check-prefixes=GFX11-TRUE16 %s
+; RUN: llc -amdgpu-scalarize-global-loads=false -mtriple=amdgcn -mcpu=gfx1200 -mattr=-flat-for-global,-real-true16 -verify-machineinstrs -enable-unsafe-fp-math < %s | FileCheck -check-prefixes=GFX11-FAKE16 %s
 
 define amdgpu_kernel void @uitofp_i16_to_f16(
 ; SI-LABEL: uitofp_i16_to_f16:

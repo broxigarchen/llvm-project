@@ -2,8 +2,10 @@
 ; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx900 < %s | FileCheck -check-prefix=GFX9 %s
 ; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=fiji < %s | FileCheck -check-prefixes=CIVI,VI %s
 ; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=hawaii < %s | FileCheck -check-prefixes=CIVI,CI %s
-; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16 %s
-; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16 %s
+; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1100 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
+; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=+real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -verify-machineinstrs -mtriple=amdgcn-amd-amdhsa -mcpu=gfx1200 -mattr=-real-true16 < %s | FileCheck -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
 
 define amdgpu_kernel void @s_insertelement_v2i16_0(ptr addrspace(1) %out, ptr addrspace(4) %vec.ptr) #0 {
 ; GFX9-LABEL: s_insertelement_v2i16_0:

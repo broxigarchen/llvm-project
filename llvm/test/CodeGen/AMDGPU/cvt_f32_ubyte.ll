@@ -3,8 +3,10 @@
 ; RUN: llc -mtriple=amdgcn-- -mcpu=tonga -mattr=-flat-for-global -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GCN,VI
 ; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1010 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX10
 ; RUN: llc -mtriple=amdgcn-- -mcpu=gfx908 -start-before=amdgpu-isel -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX9
-; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11,GFX11-TRUE16
-; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11,GFX11-FAKE16
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1100 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=+real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16
+; RUN: llc -mtriple=amdgcn-- -mcpu=gfx1200 -mattr=-real-true16 -verify-machineinstrs < %s | FileCheck %s -check-prefixes=GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16
 
 declare i32 @llvm.amdgcn.workitem.id.x() nounwind readnone
 declare i32 @llvm.amdgcn.workitem.id.y() nounwind readnone

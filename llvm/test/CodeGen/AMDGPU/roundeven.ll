@@ -4,8 +4,8 @@
 ; RUN: llc -global-isel -mtriple=amdgcn -mcpu=fiji < %s | FileCheck -check-prefix=GFX8 %s
 ; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx900 < %s | FileCheck -check-prefix=GFX9 %s
 ; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1010 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX10 %s
-; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11,GFX11-TRUE16 %s
-; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11,GFX11-FAKE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11,GFX11-TRUE16,GFX11PLUS,GFX11PLUS-TRUE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11,GFX11-FAKE16,GFX11PLUS,GFX11PLUS-FAKE16 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=tahiti < %s | FileCheck -check-prefix=SDAG_GFX6 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=hawaii < %s | FileCheck -check-prefix=SDAG_GFX7 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=fiji < %s | FileCheck -check-prefix=SDAG_GFX8 %s
@@ -13,6 +13,10 @@
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1010 < %s | FileCheck -check-prefixes=SDAG_GFX10PLUS,SDAG_GFX10 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=SDAG_GFX10PLUS,SDAG_GFX11,SDAG_GFX11-TRUE16 %s
 ; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1100 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=SDAG_GFX10PLUS,SDAG_GFX11,SDAG_GFX11-FAKE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11PLUS,GFX11PLUS-TRUE16,GFX12,GFX12-TRUE16 %s
+; RUN: llc -global-isel -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=GFX10PLUS,GFX11PLUS,GFX11PLUS-FAKE16,GFX12,GFX12-FAKE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=+real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=SDAG_GFX10PLUS,SDAG_GFX11,SDAG_GFX11-TRUE16 %s
+; RUN: llc -global-isel=0 -mtriple=amdgcn -mcpu=gfx1200 -mattr=-real-true16 -amdgpu-enable-delay-alu=0 < %s | FileCheck -check-prefixes=SDAG_GFX10PLUS,SDAG_GFX11,SDAG_GFX11-FAKE16 %s
 
 define float @v_roundeven_f32(float %x) {
 ; GFX6-LABEL: v_roundeven_f32:
