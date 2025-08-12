@@ -3412,8 +3412,34 @@ bool AMDGPUDAGToDAGISel::SelectVOP3PMods(SDValue In, SDValue &Src,
       // Really a scalar input. Just select from the low half of the register to
       // avoid packing.
 
-      if (VecSize == 32 || VecSize == Lo.getValueSizeInBits()) {
+      if (VecSize == Lo.getValueSizeInBits()) {
         Src = Lo;
+      } else if (VecSize == 32) {
+        if (!Subtarget->useRealTrue16Insts()) {
+          Src = Lo;
+        } else {
+          SDLoc SL(In);
+
+          if (Lo->isDivergent()) {
+            SDValue Undef =
+                SDValue(CurDAG->getMachineNode(TargetOpcode::IMPLICIT_DEF, SL,
+                                               Lo.getValueType()),
+                        0);
+            const SDValue Ops[] = {
+                CurDAG->getTargetConstant(AMDGPU::VGPR_32RegClassID, SL,
+                                          MVT::i32),
+                Lo, CurDAG->getTargetConstant(AMDGPU::lo16, SL, MVT::i16),
+                Undef, CurDAG->getTargetConstant(AMDGPU::hi16, SL, MVT::i16)};
+
+            Src = SDValue(CurDAG->getMachineNode(TargetOpcode::REG_SEQUENCE, SL,
+                                                 Src.getValueType(), Ops),
+                          0);
+          } else {
+            Src = SDValue(CurDAG->getMachineNode(AMDGPU::S_MOV_B32, SL,
+                                                 Src.getValueType(), Lo),
+                          0);
+          }
+        }
       } else {
         assert(Lo.getValueSizeInBits() == 32 && VecSize == 64);
 
