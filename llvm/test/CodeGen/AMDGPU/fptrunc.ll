@@ -2207,7 +2207,8 @@ define half @fabs_fptrunc_f64_to_f16(double %x) {
 ; GFX11-SAFE-SDAG-NEXT:    v_and_or_b32 v0, 0x1ff, v1, v0
 ; GFX11-SAFE-SDAG-NEXT:    v_lshrrev_b32_e32 v2, 8, v1
 ; GFX11-SAFE-SDAG-NEXT:    v_bfe_u32 v3, v1, 20, 11
-; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_3) | instskip(NEXT) | instid1(VALU_DEP_2)
+; GFX11-SAFE-SDAG-NEXT:    v_lshrrev_b32_e32 v1, 16, v1
+; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_4) | instskip(NEXT) | instid1(VALU_DEP_3)
 ; GFX11-SAFE-SDAG-NEXT:    v_cmp_ne_u32_e32 vcc_lo, 0, v0
 ; GFX11-SAFE-SDAG-NEXT:    v_sub_nc_u32_e32 v4, 0x3f1, v3
 ; GFX11-SAFE-SDAG-NEXT:    v_cndmask_b32_e64 v0, 0, 1, vcc_lo
@@ -2241,14 +2242,12 @@ define half @fabs_fptrunc_f64_to_f16(double %x) {
 ; GFX11-SAFE-SDAG-NEXT:    v_dual_mov_b32 v5, 0x7e00 :: v_dual_add_nc_u32 v2, v2, v4
 ; GFX11-SAFE-SDAG-NEXT:    v_cndmask_b32_e32 v0, 0x7c00, v5, vcc_lo
 ; GFX11-SAFE-SDAG-NEXT:    v_cmp_gt_i32_e32 vcc_lo, 31, v3
-; GFX11-SAFE-SDAG-NEXT:    v_mov_b16_e32 v4.h, 0
-; GFX11-SAFE-SDAG-NEXT:    v_mov_b16_e32 v4.l, v1.h
+; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_3) | instskip(SKIP_1) | instid1(VALU_DEP_2)
 ; GFX11-SAFE-SDAG-NEXT:    v_cndmask_b32_e32 v2, 0x7c00, v2, vcc_lo
 ; GFX11-SAFE-SDAG-NEXT:    v_cmp_eq_u32_e32 vcc_lo, 0x40f, v3
-; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_2) | instskip(NEXT) | instid1(VALU_DEP_1)
 ; GFX11-SAFE-SDAG-NEXT:    v_cndmask_b32_e32 v0, v2, v0, vcc_lo
-; GFX11-SAFE-SDAG-NEXT:    v_and_or_b32 v0, 0x8000, v4, v0
-; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_1)
+; GFX11-SAFE-SDAG-NEXT:    s_delay_alu instid0(VALU_DEP_1) | instskip(NEXT) | instid1(VALU_DEP_1)
+; GFX11-SAFE-SDAG-NEXT:    v_and_or_b32 v0, 0x8000, v1, v0
 ; GFX11-SAFE-SDAG-NEXT:    v_and_b16 v0.l, 0x7fff, v0.l
 ; GFX11-SAFE-SDAG-NEXT:    s_setpc_b64 s[30:31]
 ;
@@ -2308,7 +2307,8 @@ define half @fabs_fptrunc_f64_to_f16(double %x) {
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_and_or_b32 v0, 0x1ff, v1, v0
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_lshrrev_b32_e32 v2, 8, v1
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_bfe_u32 v3, v1, 20, 11
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_3) | instskip(NEXT) | instid1(VALU_DEP_2)
+; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_lshrrev_b32_e32 v1, 16, v1
+; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_4) | instskip(NEXT) | instid1(VALU_DEP_3)
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cmp_ne_u32_e32 vcc_lo, 0, v0
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_sub_nc_u32_e32 v4, 0x3f1, v3
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cndmask_b32_e64 v0, 0, 1, vcc_lo
@@ -2342,14 +2342,12 @@ define half @fabs_fptrunc_f64_to_f16(double %x) {
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_dual_mov_b32 v5, 0x7e00 :: v_dual_add_nc_u32 v2, v2, v4
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cndmask_b32_e32 v0, 0x7c00, v5, vcc_lo
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cmp_gt_i32_e32 vcc_lo, 31, v3
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_mov_b16_e32 v4.h, 0
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_mov_b16_e32 v4.l, v1.h
+; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_3) | instskip(SKIP_1) | instid1(VALU_DEP_2)
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cndmask_b32_e32 v2, 0x7c00, v2, vcc_lo
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cmp_eq_u32_e32 vcc_lo, 0x40f, v3
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_2) | instskip(NEXT) | instid1(VALU_DEP_1)
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_cndmask_b32_e32 v0, v2, v0, vcc_lo
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_and_or_b32 v0, 0x8000, v4, v0
-; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_1)
+; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_delay_alu instid0(VALU_DEP_1) | instskip(NEXT) | instid1(VALU_DEP_1)
+; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_and_or_b32 v0, 0x8000, v1, v0
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    v_and_b16 v0.l, 0x7fff, v0.l
 ; GFX11-UNSAFE-SDAG-TRUE16-NEXT:    s_setpc_b64 s[30:31]
 ;
