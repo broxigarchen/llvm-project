@@ -117,7 +117,7 @@ void SIPostRA16BitMovFolding::getMovB16Info(const MachineInstr &MI,
 //   v_mov_b16 v0.h, 0        v_mov_b16 v0.l, v2.h     => v_lshrrev_b32 v0,16,v2
 //   v_mov_b16 v0.l, 0        v_mov_b16 v0.h, v2.l/s2  => v_lshlrev_b32 v0,16,v2/s2
 //   v_mov_b16 v0.l, 0        v_mov_b16 v0.h, v2.h     => v_and_b32  v0,0xffff0000,v2
-//   v_mov_b16 v0.l, v.x/s    v_mov_b16 v0.h, v.y/s    => v_pack_b32_f16 v0, v/s, v/s
+//   v_mov_b16 v0.l, v.x/s    v_mov_b16 v0.h, v.y/s    => v_perm_b32_e64 v0, v.x/s, v.y/s, mask
 // clang-format on
 bool SIPostRA16BitMovFolding::mergeSingleMovB16Pair(MachineInstr &Lo,
                                               MachineInstr &Hi,
@@ -188,15 +188,17 @@ bool SIPostRA16BitMovFolding::mergeSingleMovB16Pair(MachineInstr &Lo,
   // Insert on Selected MI location, then remove both mov.
 
   // Pattern: v_mov_b16 v0.l, v2.x/s2 + v_mov_b16 v0.h, v3.y/s3
-  //   => v_pack_b32_f16 v0,v2.x/s2,v3.y/s3
+  //   => v_perm_b32_e64  v0,v3.y/s3,v2.x/s2, mask
   if (!HiSrcIsImm && !LoSrcIsImm) {
-    BuildMI(MBB, Selected, DL, TII->get(AMDGPU::V_PACK_B32_F16_t16_e64), Dst32)
-        .addImm(0) // SrcMod
-        .addReg(LoSrc16)
-        .addImm(0) // SrcMod
-        .addReg(HiSrc16)
-        .addImm(0)  // Clamp
-        .addImm(0); // Opsel
+	// Violate constant bus restriction
+	if (!LoSrcIsVGPR && !HiSrcIsVGPR && HiSrc32 != LoSrc32)
+		return false;
+    unsigned MaskHiSrc = HiSrcIsHi ? 0x0706 : 0x0504;
+    unsigned MaskLoSrc = LoSrcIsHi ? 0x0302 : 0x0100;
+    BuildMI(MBB, Selected, DL, TII->get(AMDGPU::V_PERM_B32_e64), Dst32)
+        .addReg(HiSrc32)
+        .addReg(LoSrc32)
+        .addImm((MaskHiSrc << 16) | MaskLoSrc);
     Lo.eraseFromParent();
     Hi.eraseFromParent();
     return true;
