@@ -1798,6 +1798,7 @@ def : GCNPat <
 } // End OtherPredicates = [isGFX8Plus, p]
 
 let True16Predicate = UseRealTrue16Insts in {
+/*
 def : GCNPat<
   (i32 (UniformUnaryFrag<anyext> i16:$src)),
   (COPY $src)
@@ -1837,6 +1838,27 @@ def : GCNPat <
 
 def : GCNPat <
   (i16 (DivergentUnaryFrag<trunc> i64:$src)),
+  (EXTRACT_SUBREG $src, lo16)
+>;
+*/
+
+def : GCNPat<
+  (i32 (anyext i16:$src)),
+  (REG_SEQUENCE VGPR_32, $src, lo16, (i16 (IMPLICIT_DEF)), hi16)
+>;
+
+def : GCNPat<
+  (i64 (anyext i16:$src)),
+  (REG_SEQUENCE VReg_64, $src, lo16, (i16 (IMPLICIT_DEF)), hi16, (i32 (IMPLICIT_DEF)), sub1)
+>;
+
+def : GCNPat<
+  (i16 (trunc i32:$src)),
+  (EXTRACT_SUBREG $src, lo16)
+>;
+
+def : GCNPat <
+  (i16 (trunc i64:$src)),
   (EXTRACT_SUBREG $src, lo16)
 >;
 

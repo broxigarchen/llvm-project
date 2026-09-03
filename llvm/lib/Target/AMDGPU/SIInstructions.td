@@ -5188,3 +5188,4 @@ foreach inst = VGPR32_Ptr_Opcodes in {
 foreach inst = VGPR64_Ptr_Opcodes in {
   def : RemapPointerOperands<inst, VReg_64_AlignTarget>;
 }
+			// t4: vgpr_16 = COPY_REGCLASS t3

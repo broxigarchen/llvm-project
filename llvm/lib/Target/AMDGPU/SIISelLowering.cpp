@@ -19594,6 +19594,7 @@ void SITargetLowering::AdjustInstrPostInstrSelection(MachineInstr &MI,
   MachineRegisterInfo &MRI = MF->getRegInfo();
 
   if (TII->isVOP3(MI.getOpcode())) {
+    LLVM_DEBUG(dbgs() << "AdjustInstrPostInstr:" << MI << "\n");
     // Make sure constant bus requirements are respected.
     TII->legalizeOperandsVOP3(MRI, MI);
 
@@ -19613,6 +19614,7 @@ void SITargetLowering::AdjustInstrPostInstrSelection(MachineInstr &MI,
       }
     }
 
+    LLVM_DEBUG(dbgs() << "AdjustInstrPostInstr:" << MI << "\n");
     return;
   }
 

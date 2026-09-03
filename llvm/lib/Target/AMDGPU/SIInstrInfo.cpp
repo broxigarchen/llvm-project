@@ -5368,6 +5368,9 @@ bool SIInstrInfo::verifyInstruction(const MachineInstr &MI,
   const MachineFunction *MF = MI.getMF();
   const MachineRegisterInfo &MRI = MF->getRegInfo();
 
+  if (getCGPassBuilderOption().EnableGlobalISelOption == cl::boolOrDefault::BOU_TRUE)
+        return true;
+
   // FIXME: At this point the COPY verify is done only for non-ssa forms.
   // Find a better property to recognize the point where instruction selection
   // is just done.
@@ -6552,7 +6555,8 @@ void SIInstrInfo::legalizeOpWithMove(MachineInstr &MI, unsigned OpIdx) const {
         .addImm(AMDGPU::sub0_sub1)
         .addReg(Low64, RegState::Kill)
         .addImm(AMDGPU::sub2_sub3);
-  } else if (Size == 16 && RI.getCommonSubClass(&AMDGPU::SGPR_32RegClass, RC)) {
+  } else if (Size == 16 && ST.useRealTrue16Insts() && Opcode == AMDGPU::COPY
+      && RI.getCommonSubClass(&AMDGPU::SGPR_32RegClass, MRI.getRegClass(MO.getReg()))) {
     // Special legalization for sreg32 to vgpr16 copy
     Register VReg = MRI.createVirtualRegister(&AMDGPU::VGPR_32RegClass);
     BuildMI(*MBB, I, DL, get(Opcode), VReg).add(MO);
