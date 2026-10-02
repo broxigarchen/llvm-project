@@ -4936,8 +4936,8 @@ bool AMDGPUDAGToDAGISel::Legalize16BitExtractSubReg(SDNode *N) {
     } else if (!TRI->getCommonSubClass(UserRC, &AMDGPU::VGPR_16RegClass)) {
       UserSGPR.emplace_back(User, OperandNo);
     } else {
-      // User supports both SGPR32/VGPR16
-      // The selection here is to minimize code generation
+      // User supports both SGPR32/VGPR16. Select Src Reg Class
+	  // to reduce number of cross bank copy
       if (SubIdx == AMDGPU::hi16 || !TRI->isSGPRClass(SrcRC))
         UserVGPR.emplace_back(User, OperandNo);
       else
@@ -4952,7 +4952,7 @@ bool AMDGPUDAGToDAGISel::Legalize16BitExtractSubReg(SDNode *N) {
       SDValue SubIdxConst =
           CurDAG->getTargetConstant(AMDGPU::sub0, DL, MVT::i32);
       SReg32 = SDValue(CurDAG->getMachineNode(TargetOpcode::EXTRACT_SUBREG, DL,
-                                              VT, SDValue(Src, 0), SubIdxConst),
+                                              MVT::i32, SDValue(Src, 0), SubIdxConst),
                        0);
     } else {
       SReg32 = SDValue(Src, 0);
@@ -4976,7 +4976,7 @@ bool AMDGPUDAGToDAGISel::Legalize16BitExtractSubReg(SDNode *N) {
         NewValue = SReg32;
       } else {
         SDValue SHRBits = CurDAG->getTargetConstant(16, DL, MVT::i32);
-        SDVTList VTs = CurDAG->getVTList(MVT::i32, MVT::i32);
+        SDVTList VTs = CurDAG->getVTList(MVT::i32);
         NewValue = SDValue(CurDAG->getMachineNode(AMDGPU::S_LSHR_B32, DL, VTs,
                                                   {SReg32, SHRBits}),
                            0);
@@ -5003,10 +5003,11 @@ bool AMDGPUDAGToDAGISel::Legalize16BitExtractSubReg(SDNode *N) {
       SDValue SubIdxConst =
           CurDAG->getTargetConstant(AMDGPU::sub0, DL, MVT::i32);
       VReg32 = SDValue(CurDAG->getMachineNode(TargetOpcode::EXTRACT_SUBREG, DL,
-                                              VT, SDValue(Src, 0), SubIdxConst),
+                                              MVT::i32, SDValue(Src, 0), SubIdxConst),
                        0);
-    } else
+    } else {
       VReg32 = SDValue(Src, 0);
+	}
     SDValue RCImm =
         CurDAG->getTargetConstant(AMDGPU::SGPR_32RegClassID, DL, MVT::i32);
     NewValue = SDValue(
@@ -5104,7 +5105,7 @@ bool AMDGPUDAGToDAGISel::Legalize16BitCrossBank(SDNode *N) {
   return true;
 }
 
-// Due to missing sgpr16 class, 16bit value could be in vgpr16/sgpr32.
+// Due to missing sgpr16 class, 16bit values could be in vgpr16/sgpr32.
 // Check and legalize 16bit Register/SubregIdx in true16 mode including:
 // 1. 16bit register def-use chain that requires a fix (i.e. sgpr32->vgpr16)
 // 2. extract_subreg lo/hi16
