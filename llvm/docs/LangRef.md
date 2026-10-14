@@ -8789,9 +8789,8 @@ Irreducible loop header weights are typically based on profile data.
 
 #### '`invariant.load`' Metadata
 
-The `invariant.load` metadata may be attached to load operations or to intrinsic
-calls that only read memory (though it is possible this may be extended in the
-future if the need arises).
+The `invariant.load` metadata may be attached to load operations or to calls
+that only read memory.
 
 If an `invariant.load`-tagged operation is executed, every memory location
 read by that operation must contain the same value at all points in the program
