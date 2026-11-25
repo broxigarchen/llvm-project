@@ -715,6 +715,46 @@ def : GCNPat<
 >;
 } // End SubtargetPredicate = HasPackedU64SingleSGPROps
 
+// TODO: fold fneg into neg_lo/neg_hi and extract_hi sources into op_sel.
+multiclass FMA16PKPats<SDPatternOperator node,
+                      Instruction pk_inst,
+                      ValueType VT,
+                      ValueType VecVT> {
+// Unpacked halves rejoined by a vector build_vector.
+def : GCNPat<
+  (VecVT (build_vector
+    (VT (node (VT VGPR_16:$lo_src0),
+              (VT VGPR_16:$lo_src1),
+              (VT VGPR_16:$lo_src2))),
+    (VT (node (VT VGPR_16:$hi_src0),
+              (VT VGPR_16:$hi_src1),
+              (VT VGPR_16:$hi_src2))))),
+  (VecVT (pk_inst
+           SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src0, lo16, $hi_src0, hi16),
+           SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src1, lo16, $hi_src1, hi16),
+           SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src2, lo16, $hi_src2, hi16),
+           DSTCLAMP.NONE))
+>;
+
+def : GCNPat<
+  (v2i16 (build_vector
+    (i16 (bitconvert (VT (node (VT VGPR_16:$lo_src0),
+                               (VT VGPR_16:$lo_src1),
+                               (VT VGPR_16:$lo_src2))))),
+    (i16 (bitconvert (VT (node (VT VGPR_16:$hi_src0),
+                               (VT VGPR_16:$hi_src1),
+                               (VT VGPR_16:$hi_src2))))))),
+  (pk_inst
+    SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src0, lo16, $hi_src0, hi16),
+    SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src1, lo16, $hi_src1, hi16),
+    SRCMODS.OP_SEL_1, (REG_SEQUENCE VGPR_32, $lo_src2, lo16, $hi_src2, hi16),
+    DSTCLAMP.NONE)
+>;
+}
+
+let True16Predicate = UseRealTrue16Insts in
+defm : FMA16PKPats<fma, V_PK_FMA_F16, f16, v2f16>;
+
 // Defines patterns that extract signed 4bit from each Idx[0].
 foreach Idx = [[0,28],[4,24],[8,20],[12,16],[16,12],[20,8],[24,4]] in
   def ExtractSigned4bit_#Idx[0] : PatFrag<(ops node:$src),
